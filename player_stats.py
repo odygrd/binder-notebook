@@ -4,6 +4,7 @@ import pandas as pd
 from tabulate import tabulate
 from datetime import datetime
 import os
+import seaborn as sns
 
 # Returns the file with the latest date
 def get_latest_player_stats_file():
@@ -40,3 +41,10 @@ df_final.set_index('Score', inplace=True)
 df_final.sort_index(ascending=False,inplace=True)
 
 print(tabulate(df_final, headers='keys', tablefmt='fancy_grid'))
+
+# cm = sns.light_palette("green", as_cmap=True)
+# styled_df = df_final.style.background_gradient(cmap=cm, subset=['Guild Goods'])
+
+# with open('df_html.html', 'w') as html:
+#     html.write(styled_df.render())
+
