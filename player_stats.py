@@ -37,14 +37,14 @@ df_mean = df_mean.rename(columns={"Total (Att+Def)": "Era average Att+Def", "Gui
 
 # Join into a single df
 df_final = df.join(df_mean)
+column_names = ["Score", "Name", "Attack", "Defense", "Total (Att+Def)", "Era average Att+Def", "Guild Goods", "Era average Guild Goods"]
+df_final = df_final.reindex(columns=column_names)
 df_final.set_index('Score', inplace=True)
 df_final.sort_index(ascending=False,inplace=True)
 
 print(tabulate(df_final, headers='keys', tablefmt='fancy_grid'))
 
-# cm = sns.light_palette("green", as_cmap=True)
-# styled_df = df_final.style.background_gradient(cmap=cm, subset=['Guild Goods'])
+styled_df = df_final.style.background_gradient(cmap=sns.light_palette("green", as_cmap=True), subset=pd.IndexSlice[df_final['Guild Goods']>=2357, 'Guild Goods']).background_gradient(cmap=sns.light_palette("red", as_cmap=True), subset=pd.IndexSlice[df_final['Guild Goods']<2357, 'Guild Goods']).background_gradient(cmap=sns.light_palette("purple", as_cmap=True), subset=['Total (Att+Def)']).format(precision = 0)
 
-# with open('df_html.html', 'w') as html:
-#     html.write(styled_df.render())
-
+with open('df_html.html', 'w') as html:
+    html.write(styled_df.render())
