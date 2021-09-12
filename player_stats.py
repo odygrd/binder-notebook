@@ -41,10 +41,11 @@ column_names = ["Score", "Name", "Attack", "Defense", "Total (Att+Def)", "Era av
 df_final = df_final.reindex(columns=column_names)
 df_final.set_index('Score', inplace=True)
 df_final.sort_index(ascending=False,inplace=True)
-
+df_final.reset_index(drop=True, inplace=True)
 print(tabulate(df_final, headers='keys', tablefmt='fancy_grid'))
 
-styled_df = df_final.style.background_gradient(cmap=sns.light_palette("green", as_cmap=True), subset=pd.IndexSlice[df_final['Guild Goods']>=2357, 'Guild Goods']).background_gradient(cmap=sns.light_palette("red", as_cmap=True), subset=pd.IndexSlice[df_final['Guild Goods']<2357, 'Guild Goods']).background_gradient(cmap=sns.light_palette("purple", as_cmap=True), subset=['Total (Att+Def)']).format(precision = 0)
+styled_df = df_final.style.background_gradient(cmap=sns.light_palette("green", as_cmap=True), subset=pd.IndexSlice[df_final['Guild Goods']>=2357, 'Guild Goods']).background_gradient(cmap=sns.light_palette("red", as_cmap=True), subset=pd.IndexSlice[df_final['Guild Goods']<2357, 'Guild Goods']).background_gradient(cmap=sns.light_palette("purple", as_cmap=True), subset=['Total (Att+Def)']).format(precision = 0).set_table_styles([{"selector": "", "props": [("border", "1px solid grey")]},{"selector": "tbody td", "props": [("border", "1px solid grey")]},{"selector": "th", "props": [("border", "1px solid grey")]}])
 
 with open('df_html.html', 'w') as html:
     html.write(styled_df.render())
+
